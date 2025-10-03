@@ -1,3 +1,10 @@
+# API credentials
+.env
+.DS_Store
+
+# exclude virtual environment
+treebot-env/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
