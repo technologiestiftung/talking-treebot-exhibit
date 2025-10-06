@@ -10,11 +10,10 @@ from openai_api import speech_to_text, query_chatgpt, text_to_speech
 from recording import VoiceRecorder
 import simpleaudio as sa
 import RPi.GPIO as GPIO
+from button import dimmerTalk, dimmerThink
 
 BUTTON_PIN = 23
-LED_PIN = 18
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
-GPIO.setup(LED_PIN, GPIO.OUT)  # Set LED pin as output
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 
@@ -93,9 +92,6 @@ def main():
                     # Add a small delay to avoid rapid looping
                     time.sleep(0.1)  
 
-                # Turn on LED when we listen
-                GPIO.output(LED_PIN, GPIO.HIGH)
-
                 # Creates an audio file and saves it to a BytesIO stream
                 voice_recorder = VoiceRecorder()
                 audio_stream = voice_recorder.record_audio()
@@ -106,6 +102,9 @@ def main():
                 question_counter += 1
 
                 subprocess.run(["mpg123", "audio/understood.mp3"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                #call dimmerThink function to turn the led on and whow the user blue light
+                dimmerThink()
+
 
                 print("question language: ", question_language)
                 print("question_counter: ", question_counter)
@@ -125,6 +124,9 @@ def main():
                     play_audio(response_audio)
                     time.sleep(0.1)
 
+                    #call dimmerTalk function to singal the us AFTER playing that he/she can talk again -> green light
+                    dimmerTalk()
+
                 else:
                     random_goodbye = random.choice(config["goodbyes"])
                     print("random_goodbye_text: ", random_goodbye["text"])
@@ -134,8 +136,6 @@ def main():
                     history = []
                     #loop_active = False
             else:
-                #print("Waiting for button press to wake up")
-                GPIO.output(LED_PIN, GPIO.LOW)
                 #signal.pause()
                 #play_audio(elevenlabs_tts("Ich bin ein Baum und warte"))
                 time.sleep(0.1)            

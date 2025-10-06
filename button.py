@@ -75,11 +75,6 @@ try:
             time.sleep(0.05)  # Debounce delay
             print("🔘 Button pressed — triggering LED strip")
 
-            # Trigger your systemd signal if you still need it
-            subprocess.run(
-                ["systemctl", "--user", "kill", "--signal=SIGUSR1", "treebot.service"]
-            )
-
             # Run LED animation
             #dimmerThink()
             dimmerTalk()
