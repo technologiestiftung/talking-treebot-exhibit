@@ -11,9 +11,12 @@ from recording import VoiceRecorder
 import simpleaudio as sa
 import RPi.GPIO as GPIO
 
-LED_PIN = 24
+BUTTON_PIN = 23
+LED_PIN = 18
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
 GPIO.setup(LED_PIN, GPIO.OUT)  # Set LED pin as output
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 
 # Load config
 with open ("config.json", "r") as file:
@@ -74,6 +77,14 @@ def main():
 
     try:
         while True:
+            #print("Button value before:", GPIO.input(BUTTON_PIN))
+            #if GPIO.input(BUTTON_PIN) == GPIO.HIGH:
+            #    loop_active = True
+            #    print("Button value after pressing:", GPIO.input(BUTTON_PIN))
+            #else:
+            #    loop_active = False
+            loop_active = True
+            
             if loop_active:
                 if question_counter != last_question_counter or initial_run:
                     prompt = generate_dynamic_prompt()

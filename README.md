@@ -16,7 +16,9 @@ This is a improved version of [talking treebot](https://github.com/technologiest
 - USB speaker box
 - Bluetooth Lavalier microphone with USB receiver
 - capacitive thread to trigger the bot
-
+- WS2812B led strip  strip to show user if treebot is thinking or not 
+    `sudo pip3 install adafruit-blinka adafruit-circuitpython-neopixel rpi-ws281x`
+    `sudo "$(which python)" ledStrip.py`
 
 ## Setup Raspberry Pi v4
 The chatbot uses the latest Rasbian OS (Bookworm) release in which Python v3.11.2 is pre-installed. We use `Python 3.11.2` with `pip` as package manager and `virtualenv` to create isolate virtual environments. 
